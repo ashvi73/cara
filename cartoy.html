@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EliteDrive Toys</title>
+<style>
+body {margin:0;font-family:'Poppins',sans-serif;background:#0d0d0d;color:#fff;}
+header {display:flex;justify-content:space-between;align-items:center;padding:20px 50px;background:#111;border-bottom:1px solid #222;}
+.logo {font-size:28px;font-weight:bold;color:gold;}
+nav a {margin:0 15px;text-decoration:none;color:#fff;cursor:pointer;}
+.hero {height:80vh;display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(to right,#000,#222);}
+.hero h1 {font-size:60px;color:gold;}
+.btn {padding:10px 20px;background:gold;color:#000;border:none;margin:10px;cursor:pointer;}
+.products {padding:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+.card {background:#111;border-radius:15px;overflow:hidden;transition:.3s;padding-bottom:15px;}
+.card:hover {transform:scale(1.05);}
+.card img {width:100%;height:200px;object-fit:cover;}
+.card h3,.card p {padding:10px;}
+.page {display:none;}
+.active {display:block;}
+.cart-page {padding:40px;}
+.cart-item {border-bottom:1px solid #333;padding:10px 0;}
+footer {padding:20px;text-align:center;background:#111;}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">EliteDrive</div>
+<nav>
+<a onclick="showPage('home')">Home</a>
+<a onclick="showPage('cart')">Cart 🛒</a>
+</nav>
+</header>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+<section class="hero">
+<h1>Luxury Car Toys</h1>
+<p>Premium Collection</p>
+<button class="btn" onclick="scrollToProducts()">Shop Now</button>
+</section>
+<section class="products" id="productList"></section>
+</div>
+
+<!-- CART PAGE -->
+<div id="cart" class="page cart-page">
+<h1>Your Cart</h1>
+<div id="cartItems"></div>
+<h2 id="total">Total: ₹0</h2>
+</div>
+
+<footer>
+<p>© 2026 EliteDrive Toys</p>
+</footer>
+
+<script>
+const products = [
+{name:'Lamborghini Toy',price:4999,img:'https://source.unsplash.com/400x300/?lamborghini'},
+{name:'Ferrari Toy',price:5999,img:'https://source.unsplash.com/400x300/?ferrari'},
+{name:'Bugatti Toy',price:6999,img:'https://source.unsplash.com/400x300/?bugatti'},
+{name:'Rolls Royce Toy',price:7999,img:'https://source.unsplash.com/400x300/?rolls-royce'}
+];
+
+let cart = [];
+
+function displayProducts(){
+const container=document.getElementById('productList');
+container.innerHTML='';
+products.forEach((p,index)=>{
+const card=document.createElement('div');
+card.className='card';
+card.innerHTML=`
+<img src="${p.img}">
+<h3>${p.name}</h3>
+<p>₹${p.price}</p>
+<button class="btn" onclick="addToCart(${index})">Add to Cart</button>
+`;
+container.appendChild(card);
+});
+}
+
+function addToCart(index){
+cart.push(products[index]);
+alert('Item added to cart');
+updateCart();
+}
+
+function updateCart(){
+const cartDiv=document.getElementById('cartItems');
+cartDiv.innerHTML='';
+let total=0;
+cart.forEach(item=>{
+const div=document.createElement('div');
+div.className='cart-item';
+div.innerHTML=`<p>${item.name}</p><p>₹${item.price}</p>`;
+cartDiv.appendChild(div);
+total+=item.price;
+});
+document.getElementById('total').innerText='Total: ₹'+total;
+}
+
+function showPage(page){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(page).classList.add('active');
+if(page==='cart') updateCart();
+}
+
+function scrollToProducts(){
+document.getElementById('productList').scrollIntoView({behavior:'smooth'});
+}
+
+displayProducts();
+</script>
+
+</body>
+</html>

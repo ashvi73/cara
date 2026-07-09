@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Men's Fashion Store</title>
+<style>
+body { font-family: Arial; margin: 0; }
+header { background: black; color: white; padding: 15px; text-align: center; }
+.products { display: flex; gap: 20px; padding: 20px; }
+.card { border: 1px solid #ccc; padding: 10px; width: 200px; }
+button { background: black; color: white; padding: 10px; border: none; cursor: pointer; }
+.cart { position: fixed; right: 0; top: 0; background: #f4f4f4; width: 300px; height: 100%; padding: 20px; overflow: auto; }
+</style>
+</head>
+<body>
+
+<header>
+<h1>Men's Fashion Brand</h1>
+</header>
+
+<div class="products">
+<div class="card">
+<h3>T-Shirt</h3>
+<p>₹499</p>
+<button onclick="addToCart('T-Shirt',499)">Add to Cart</button>
+</div>
+
+<div class="card">
+<h3>Jeans</h3>
+<p>₹999</p>
+<button onclick="addToCart('Jeans',999)">Add to Cart</button>
+</div>
+
+<div class="card">
+<h3>Jacket</h3>
+<p>₹1999</p>
+<button onclick="addToCart('Jacket',1999)">Add to Cart</button>
+</div>
+</div>
+
+<div class="cart">
+<h2>Cart</h2>
+<ul id="cartItems"></ul>
+<h3>Total: ₹<span id="total">0</span></h3>
+
+<h3>Delivery Address</h3>
+<input type="text" id="address" placeholder="Enter your address">
+
+<h3>Payment Method</h3>
+<select id="payment">
+<option>UPI</option>
+<option>Debit Card</option>
+<option>Credit Card</option>
+<option>PhonePe</option>
+<option>Google Pay</option>
+</select>
+
+<button onclick="checkout()">Checkout</button>
+</div>
+
+<script>
+let cart = [];
+
+function addToCart(name, price) {
+cart.push({name, price});
+renderCart();
+}
+
+function renderCart() {
+let cartItems = document.getElementById("cartItems");
+let total = 0;
+cartItems.innerHTML = "";
+
+cart.forEach(item => {
+let li = document.createElement("li");
+li.textContent = item.name + " - ₹" + item.price;
+cartItems.appendChild(li);
+ total += item.price;
+});
+
+document.getElementById("total").textContent = total;
+}
+
+function checkout() {
+let address = document.getElementById("address").value;
+let payment = document.getElementById("payment").value;
+
+if(cart.length === 0) {
+alert("Cart is empty!");
+return;
+}
+
+if(address === "") {
+alert("Please enter delivery address");
+return;
+}
+
+alert("Order placed successfully!\nPayment Method: " + payment);
+cart = [];
+renderCart();
+}
+</script>
+
+</body>
+</html>

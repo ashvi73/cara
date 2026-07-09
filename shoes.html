@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Devil Dumb — Shoes</title>
+  <meta name="description" content="Devil Dumb — bold, stylish shoes. Shop top sneaker & casual collections." />
+
+  <style>
+    /* === Color tokens ===
+       Mushroom (interpreting 'mehroom'): #BA9E88
+       Light Blue: #ADD8E6
+       Black: #000000
+       White: #ffffff
+    */
+    :root{
+      --mushroom: #BA9E88;
+      --light-blue: #ADD8E6;
+      --black: #000000;
+      --white: #ffffff;
+
+      --bg: #fff;
+      --muted: #555;
+      --radius: 12px;
+      --max-width: 1200px;
+    }
+
+    /* Reset + base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, var(--white) 0%, #f9f9f9 100%);
+      color:var(--black);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+    }
+
+    .container{
+      width:92%;
+      max-width:var(--max-width);
+      margin:0 auto;
+    }
+
+    /* Header */
+    header{
+      background: linear-gradient(90deg,var(--mushroom) 0%, rgba(186,160,136,0.9) 60%);
+      color:var(--white);
+      padding:18px 0;
+      position:sticky;
+      top:0;
+      z-index:30;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      font-weight:800;
+      letter-spacing:1px;
+      font-size:1.25rem;
+    }
+    .brand .logo{
+      width:44px;height:44px;border-radius:10px;background:var(--black);
+      display:grid;place-items:center;color:var(--white);font-weight:900;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25), inset 0 -6px 16px rgba(255,255,255,0.02);
+    }
+
+    nav .links{display:flex;gap:16px;align-items:center}
+    .links a{
+      color:var(--white);text-decoration:none;font-weight:600;
+      padding:8px 10px;border-radius:8px;opacity:0.95;
+    }
+    .links a:hover{background: rgba(0,0,0,0.08)}
+
+    /* Search & cart */
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{
+      display:flex;align-items:center;background:var(--white);padding:6px 10px;border-radius:999px;
+      width:260px;gap:8px;color:var(--muted);
+    }
+    .search input{
+      border:0;outline:none;background:transparent;font-weight:600;
+      width:100%;
+    }
+    .cart-btn{
+      display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.08);
+      cursor:pointer;color:var(--white);font-weight:700;
+    }
+
+    /* Hero */
+    .hero{
+      margin:26px 0;padding:36px;border-radius:18px;background:
+        linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8));
+      display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:center;
+      box-shadow: 0 12px 30px rgba(16,16,16,0.06);
+    }
+    .hero-left h1{
+      margin:0;font-size:2.2rem;line-height:1.02;
+    }
+    .hero-left p{color:var(--muted);margin-top:10px}
+    .hero-cta{margin-top:18px;display:flex;gap:12px;align-items:center}
+    .btn{
+      padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:800;
+      letter-spacing:0.6px;
+    }
+    .btn-primary{background:var(--black);color:var(--white)}
+    .btn-light{background:var(--light-blue);color:var(--black);font-weight:700}
+
+    .hero-right{
+      display:grid;gap:10px;justify-items:center;
+    }
+    .hero-shoe{
+      width:320px;height:220px;border-radius:18px;background:
+        linear-gradient(135deg,var(--mushroom),var(--light-blue));
+      display:grid;place-items:center;color:var(--black);
+      font-weight:900;font-size:18px;box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+      transform: rotate(-6deg);
+    }
+
+    /* Filters row */
+    .toolbar{display:flex;gap:14px;align-items:center;justify-content:space-between;margin:18px 0}
+    .left-toolbar{display:flex;gap:12px;align-items:center}
+    .filter, .sort{background:var(--white);padding:8px 12px;border-radius:10px;box-shadow: 0 6px 16px rgba(16,16,16,0.04)}
+    select{border:0;background:transparent;font-weight:700;outline:none}
+
+    /* Product grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap:18px;
+    }
+    .card{
+      background:var(--white);border-radius:14px;padding:12px;box-shadow: 0 12px 26px rgba(12,12,12,0.06);
+      display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;
+    }
+    .card .media{
+      height:180px;border-radius:10px;background:#f5f5f5;display:grid;place-items:center;
+    }
+    .card img{max-width:100%;max-height:100%;object-fit:cover;border-radius:8px}
+    .tag{
+      position:absolute;left:12px;top:12px;background:var(--mushroom);color:var(--white);padding:6px 8px;border-radius:10px;font-weight:800;font-size:12px;
+    }
+    .card h3{margin:0;font-size:1.05rem}
+    .price{font-weight:900}
+    .card .actions{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:auto}
+    .small{font-size:0.9rem;color:var(--muted)}
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+    .modal{background:var(--white);max-width:920px;width:100%;border-radius:16px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,0.35);display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+    .modal .thumb{min-height:280px;border-radius:12px;background:linear-gradient(135deg,var(--light-blue),var(--mushroom));display:grid;place-items:center;font-weight:900;color:var(--black)}
+    .close-btn{background:transparent;border:0;font-weight:900;font-size:18px;color:var(--muted);cursor:pointer}
+
+    /* Cart panel */
+    .cart-panel{
+      position:fixed;right:18px;top:90px;width:360px;background:var(--white);border-radius:14px;padding:12px;box-shadow:0 25px 60px rgba(0,0,0,0.16);z-index:40;
+      display:none;flex-direction:column;gap:12px;
+      max-height:70vh;overflow:auto;
+    }
+    .cart-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px}
+    .cart-item img{width:64px;height:56px;object-fit:cover;border-radius:8px}
+    .qty{display:flex;gap:8px;align-items:center}
+    .qty button{padding:6px 8px;border-radius:8px;border:0;background:rgba(0,0,0,0.06);cursor:pointer}
+
+    /* Footer */
+    footer{margin-top:28px;padding:22px 0;background:linear-gradient(0deg, #f4f4f4, transparent)}
+    .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .social{display:flex;gap:8px;align-items:center}
+
+    /* Responsive tweaks */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr; text-align:center}
+      .hero-right{order:-1}
+      .nav .links{display:none}
+      .search{width:160px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand" aria-label="Devil Dumb brand">
+        <div class="logo">DD</div>
+        <div>
+          <div style="font-size:0.9rem;opacity:0.95">Devil Dumb</div>
+          <div style="font-size:0.7rem;opacity:0.85">Sneakers & Street</div>
+        </div>
+      </div>
+
+      <nav style="flex:1;display:flex;justify-content:center">
+        <div class="links">
+          <a href="#new">New</a>
+          <a href="#mens">Men</a>
+          <a href="#womens">Women</a>
+          <a href="#sale">Sale</a>
+        </div>
+      </nav>
+
+      <div class="controls">
+        <div class="search" role="search" aria-label="Search shoes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="searchInput" placeholder="Search shoes..." aria-label="Search input">
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="cart-btn" id="cartToggle" aria-controls="cartPanel" aria-expanded="false">
+            🛒 <span id="cartCount">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-bottom:30px;">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-left">
+        <h1 id="heroTitle">Devil Dumb — Bold shoes<br><span style="color:var(--mushroom)">for loud steps</span></h1>
+        <p>Stand out. Street-ready silhouettes, comfort-first tech, and attitude built in. Shop our curated sneaker line.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="scrollToGrid()">Shop Now</button>
+          <button class="btn btn-light" onclick="openFilter()">Collections</button>
+        </div>
+        <div style="margin-top:16px;color:var(--muted);font-size:0.95rem">
+          Free shipping over ₹3,500 • 30-day returns • Secure payments
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-shoe">DEVIL DUMB<br>EDITION</div>
+        <div style="display:flex;gap:10px">
+          <div style="padding:10px;border-radius:8px;background:rgba(0,0,0,0.04);font-weight:700">New</div>
+          <div style="padding:10px;border-radius:8px;background:rgba(0,0,0,0.04);font-weight:700">Limited</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="toolbar" style="margin-top:18px">
+      <div class="left-toolbar">
+        <div class="filter">Filter: <strong style="margin-left:8px">All</strong></div>
+        <div class="small">Showing <span id="shownCount">0</span> products</div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <label class="small" for="sortSelect">Sort</label>
+        <div class="sort"><select id="sortSelect">
+          <option value="popular">Most popular</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+        </select></div>
+      </div>
+    </div>
+
+    <section id="productsGrid" class="grid" aria-live="polite">
+      <!-- Products will be injected by JS -->
+    </section>
+
+    <section style="margin-top:28px;display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start">
+      <div style="background:var(--white);padding:18px;border-radius:12px;box-shadow: 0 16px 34px rgba(10,10,10,0.04)">
+        <h3 id="about">About Devil Dumb</h3>
+        <p style="color:var(--muted)">Devil Dumb started as a small streetwear brand with a big attitude. We design sneakers that make noise — in the best way. Built for comfort, curated for looks. Ethical sourcing and made-for-walk durability.</p>
+
+        <h4 style="margin-top:12px">Contact</h4>
+        <p style="color:var(--muted);margin-top:6px">hello@devildumb.example • +91 90000 00000</p>
+      </div>
+
+      <aside style="background:linear-gradient(180deg,var(--light-blue),#f7fbff);padding:18px;border-radius:12px;box-shadow:0 12px 28px rgba(12,12,12,0.04)">
+        <h4 style="margin:0 0 8px 0">Quick Picks</h4>
+        <ul style="padding-left:18px;color:var(--muted)"><li>Best sellers</li><li>New drops</li><li>Clearance</li></ul>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <strong>Devil Dumb</strong>
+          <p style="color:var(--muted)">Made for loud steps. © <span id="year"></span></p>
+        </div>
+        <div style="display:flex;justify-content:flex-end;align-items:center">
+          <div class="social">
+            <div style="background:var(--black);color:var(--white);padding:8px;border-radius:8px;font-weight:800">IG</div>
+            <div style="background:var(--mushroom);color:var(--white);padding:8px;border-radius:8px;font-weight:800">TW</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Product modal -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div>
+        <button class="close-btn" id="closeModal" aria-label="Close product details">✕</button>
+        <div class="thumb" id="modalImage">IMG</div>
+      </div>
+      <div>
+        <h2 id="modalTitle">Product</h2>
+        <p id="modalDesc" style="color:var(--muted)">Description</p>
+        <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+          <div style="font-size:1.4rem;font-weight:900" id="modalPrice">₹0</div>
+          <div style="margin-left:auto">
+            <button class="btn btn-primary" id="addToCartModal">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart panel -->
+  <aside class="cart-panel" id="cartPanel" aria-hidden="true">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <strong>Cart</strong>
+      <button class="close-btn" id="closeCart">✕</button>
+    </div>
+    <div id="cartItems"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid #eee">
+      <div style="color:var(--muted)">Total</div>
+      <div style="font-weight:900" id="cartTotal">₹0</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button class="btn btn-primary" id="checkoutBtn">Checkout</button>
+      <button class="btn" id="clearCart">Clear</button>
+    </div>
+  </aside>
+
+  <script>
+    /* ===== Sample product data =====
+       In a real site you'd fetch this from an API.
+    */
+    const products = [
+      {
+        id: "p1", title: "Inferno Runner", price: 5999,
+        desc: "Lightweight runner with heat-sealed overlays and grippy sole.",
+        tag: "New",
+        img: "https://images.unsplash.com/photo-1528701800489-476e8b4f9b9b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1"
+      },
+      {
+        id: "p2", title: "Midnight Chunk", price: 7499,
+        desc: "Chunky sole for a bold profile with plush inner lining.",
+        tag: "Limited",
+        img: "https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2"
+      },
+      {
+        id: "p3", title: "Cloud Slip", price: 3999,
+        desc: "Slip-on comfort with cloud-foam cushioning and breathable knit.",
+        tag: "Best Seller",
+        img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3"
+      },
+      {
+        id: "p4", title: "Street Low", price: 4799,
+        desc: "Minimal silhouette built for everyday wear.",
+        tag: "Sale",
+        img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=4"
+      },
+      {
+        id: "p5", title: "Volt High", price: 8199,
+        desc: "High-top with ankle support and bold contrast trims.",
+        tag: "New",
+        img: "https://images.unsplash.com/photo-1585386959984-a415522b6f3b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5"
+      },
+      {
+        id: "p6", title: "Canvas Core", price: 2799,
+        desc: "Classic canvas shoe with durable rubber sole.",
+        tag: "Classic",
+        img: "https://images.unsplash.com/photo-1600180758898-9d1d3e9f7a61?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6"
+      }
+    ];
+
+    const state = {
+      cart: {}, // {productId: qty}
+      shownProducts: [...products]
+    };
+
+    // Utilities
+    const ¥ = (sel, root = document) => root.querySelector(sel);
+    const ¥all = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    // Init
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const grid = document.getElementById('productsGrid');
+    const shownCount = document.getElementById('shownCount');
+    const cartToggle = document.getElementById('cartToggle');
+    const cartPanel = document.getElementById('cartPanel');
+    const cartCount = document.getElementById('cartCount');
+    const cartItemsEl = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalPrice = document.getElementById('modalPrice');
+    const addToCartModal = document.getElementById('addToCartModal');
+
+    // Render products
+    function renderProducts(list){
+      grid.innerHTML = "";
+      list.forEach(p => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="tag">${escapeHtml(p.tag)}</div>
+          <div class="media">
+            <img src="${p.img}" alt="${escapeHtml(p.title)}">
+          </div>
+          <div>
+            <h3>${escapeHtml(p.title)}</h3>
+            <div class="small">${escapeHtml(p.desc)}</div>
+          </div>
+          <div class="actions">
+            <div class="price">₹${p.price.toLocaleString('en-IN')}</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <button class="btn" data-id="${p.id}" onclick="openModal('${p.id}')">Quick view</button>
+              <button class="btn btn-primary" onclick="addToCart('${p.id}',1)">Add</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      shownCount.textContent = list.length;
+    }
+
+    // Escape helper
+    function escapeHtml(s){
+      if (!s) return "";
+      return s.replace(/[&<>"']/g, function(m){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
+      });
+    }
+
+    // Modal
+    let lastModalProduct = null;
+    window.openModal = function(id){
+      const p = products.find(x => x.id === id);
+      if(!p) return;
+      lastModalProduct = p;
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden','false');
+      modalImage.textContent = '';
+      const img = document.createElement('img');
+      img.src = p.img;
+      img.alt = p.title;
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '100%';
+      modalImage.appendChild(img);
+      modalTitle.textContent = p.title;
+      modalDesc.textContent = p.desc;
+      modalPrice.textContent = '₹' + p.price.toLocaleString('en-IN');
+      addToCartModal.onclick = () => { addToCart(p.id,1); closeModal(); };
+    };
+    function closeModal(){ modalBackdrop.style.display='none'; modalBackdrop.setAttribute('aria-hidden','true'); }
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => { if(e.target === modalBackdrop) closeModal(); });
+
+    // Cart
+    function updateCartUI(){
+      const items = Object.entries(state.cart);
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      let count = 0;
+      if(items.length === 0){
+        cartItemsEl.innerHTML = '<div style="color:var(--muted);padding:12px">Your cart is empty.</div>';
+      } else {
+        items.forEach(([id,qty]) => {
+          const p = products.find(x => x.id === id);
+          if(!p) return;
+          const row = document.createElement('div');
+          row.className = 'cart-item';
+          const itemTotal = p.price * qty;
+          total += itemTotal;
+          count += qty;
+          row.innerHTML = `
+            <img src="${p.img}" alt="${p.title}">
+            <div style="flex:1">
+              <div style="font-weight:800">${escapeHtml(p.title)}</div>
+              <div class="small">₹${p.price.toLocaleString('en-IN')} x ${qty}</div>
+            </div>
+            <div class="qty">
+              <button title="Decrease" data-id="${id}" class="decrease">−</button>
+              <div style="min-width:20px;text-align:center">${qty}</div>
+              <button title="Increase" data-id="${id}" class="increase">+</button>
+            </div>
+            <button title="Remove" data-id="${id}" class="remove" style="margin-left:8px">✕</button>
+          `;
+          cartItemsEl.appendChild(row);
+        });
+      }
+      cartCount.textContent = count;
+      cartTotalEl.textContent = '₹' + total.toLocaleString('en-IN');
+
+      // Attach cart actions
+      ¥all('.decrease', cartItemsEl).forEach(btn => btn.addEventListener('click', (e) => {
+        const id = e.currentTarget.dataset.id;
+        changeQty(id, -1);
+      }));
+      ¥all('.increase', cartItemsEl).forEach(btn => btn.addEventListener('click', (e) => {
+        const id = e.currentTarget.dataset.id;
+        changeQty(id, +1);
+      }));
+      ¥all('.remove', cartItemsEl).forEach(btn => btn.addEventListener('click', (e) => {
+        const id = e.currentTarget.dataset.id;
+        removeFromCart(id);
+      }));
+    }
+
+    function addToCart(id, qty = 1){
+      if(!state.cart[id]) state.cart[id] = 0;
+      state.cart[id] += qty;
+      if(state.cart[id] < 1) delete state.cart[id];
+      flashCart();
+      updateCartUI();
+      // show cart panel automatically
+      openCart();
+    }
+
+    function changeQty(id, delta){
+      if(!state.cart[id]) return;
+      state.cart[id] += delta;
+      if(state.cart[id] <= 0) delete state.cart[id];
+      updateCartUI();
+    }
+
+    function removeFromCart(id){
+      delete state.cart[id];
+      updateCartUI();
+    }
+
+    function clearCart(){
+      state.cart = {};
+      updateCartUI();
+    }
+
+    // Cart panel toggle
+    function openCart(){
+      cartPanel.style.display = 'flex';
+      cartPanel.setAttribute('aria-hidden','false');
+      cartToggle.setAttribute('aria-expanded','true');
+    }
+    function closeCart(){
+      cartPanel.style.display = 'none';
+      cartPanel.setAttribute('aria-hidden','true');
+      cartToggle.setAttribute('aria-expanded','false');
+    }
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    cartToggle.addEventListener('click', () => {
+      if(cartPanel.style.display === 'flex') closeCart(); else openCart();
+    });
+    document.getElementById('clearCart').addEventListener('click', clearCart);
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if(Object.keys(state.cart).length === 0){ alert('Your cart is empty.'); return; }
+      alert('Checkout is a demo here — implement real checkout with a payments provider.');
+    });
+
+    function flashCart(){
+      cartToggle.animate([{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:240});
+    }
+
+    // Search & sort
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+
+    searchInput.addEventListener('input', () => {
+      applyFilters();
+    });
+    sortSelect.addEventListener('change', () => applyFilters());
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      let list = products.filter(p => {
+        return p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.tag.toLowerCase().includes(q);
+      });
+
+      const sortVal = sortSelect.value;
+      if(sortVal === 'price-asc') list.sort((a,b)=>a.price-b.price);
+      if(sortVal === 'price-desc') list.sort((a,b)=>b.price-a.price);
+      // else popular - leave original order
+
+      state.shownProducts = list;
+      renderProducts(list);
+    }
+
+    // Small helpers
+    function scrollToGrid(){ document.getElementById('productsGrid').scrollIntoView({behavior:'smooth'}); }
+    function openFilter(){ alert('Filter panel demo — implement advanced filters as needed.'); }
+
+    // Small modal close with Esc
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        closeModal();
+        closeCart();
+      }
+    });
+
+    // Simple persistence (localStorage)
+    try {
+      const saved = JSON.parse(localStorage.getItem('devildumb_cart') || '{}');
+      if(saved && typeof saved === 'object') state.cart = saved;
+    } catch(e){}
+    window.addEventListener('beforeunload', () => localStorage.setItem('devildumb_cart', JSON.stringify(state.cart)));
+
+    // Initial render
+    renderProducts(products);
+    updateCartUI();
+
+    // Accessibility small tweak - focus trap not implemented for demo
+  </script>
+</body>
+</html>
